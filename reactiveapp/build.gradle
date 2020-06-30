@@ -55,7 +55,7 @@ dependencies {
     api 'androidx.navigation:navigation-ui-ktx:2.3.0'
 
     //Reactdroid - includes com.github.APromise, androidx.core:core-ktx, androidx.appcompat:appcompat
-    api 'com.github.GuyMichael:Reactdroid:0.1.70'
+    api 'com.github.GuyMichael:Reactdroid:0.1.71'
 
     //Networking - Retrofit
     api 'com.squareup.retrofit2:retrofit:2.8.1'

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- generic colors  -->
+    <color name="black">#000000</color>
+    <color name="black87">#DE000000</color>
+    <color name="black87NoTransparency">#212121</color>
+    <color name="black70">#B3000000</color>
+    <color name="black70NoTransparency">#474747</color><!-- ~0.715 opacity -->
+    <color name="black55">#8C000000</color>
+    <color name="black38">#61000000</color>
+    <color name="black38NoTransparency">#9E9E9E</color>
+    <color name="black25">#40000000</color>
+    <color name="black25NoTransparency">#aaaaaa</color>
+    <color name="black15">#26000000</color>
+    <color name="black10">#1A000000</color>
+    <color name="black10NoTransparency">#e5e5e5</color>
+    <color name="black05">#0D000000</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="white15">#26FFFFFF</color>
+    <color name="white20">#33FFFFFF</color>
+    <color name="white35">#59FFFFFF</color>
+    <color name="white40">#66FFFFFF</color>
+    <color name="white55">#8CFFFFFF</color>
+    <color name="white70">#B3FFFFFF</color>
+    <color name="white87">#DEFFFFFF</color>
+
+        <!--DayNight-->
+    <color name="dayNightBlack">@color/black</color>
+    <color name="dayNightBlack87NoTransparency">@color/black87NoTransparency</color>
+    <color name="dayNightBlack55">#8C000000</color>
+    <color name="dayNightBlack15">@color/black15</color>
+
+    <color name="dayNightWhite">#FFFFFF</color>
+    <color name="dayNightWhite35">@color/white35</color>
+    <color name="dayNightWhite55">@color/white55</color>
+
+
+
+    <!-- Material colors -->
+    <color name="materialEtUnderline">#66000000</color><!--colorBlack40-->
+
+        <!--DayNight-->
+    <color name="dayNightMaterialEtUnderline">@color/materialEtUnderline</color>
+
+</resources>

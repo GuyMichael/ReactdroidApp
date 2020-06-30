@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- generic colors -->
+    
+    <color name="dayNightBlack">@android:color/white</color>
+    <color name="dayNightBlack87NoTransparency">@color/white87</color><!--THINK no transparency white-->
+    <color name="dayNightBlack15">@color/white15</color>
+    <color name="dayNightBlack55">@color/white70</color>
+    
+    <color name="dayNightWhite">@android:color/black</color>
+    <color name="dayNightWhite35">@color/black38</color>
+    <color name="dayNightWhite55">@color/black55</color>
+
+
+
+    <!-- Material colors -->
+    <color name="dayNightMaterialEtUnderline">@color/white40</color>
+
+</resources>
