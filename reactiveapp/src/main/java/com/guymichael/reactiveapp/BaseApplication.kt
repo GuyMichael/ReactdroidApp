@@ -6,13 +6,13 @@ import androidx.annotation.DimenRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.multidex.MultiDexApplication
+import com.guymichael.reactdroid.extensions.components.permissions.PermissionsLogic
+import com.guymichael.reactdroid.extensions.navigation.NavigationLogic
 import com.guymichael.reactiveapp.network.ApiManager
 import com.guymichael.reactiveapp.network.model.ApiClient
 import com.guymichael.reactiveapp.persist.db.DbLogic
 import com.guymichael.reactiveapp.persist.sharedpref.SharedPrefLogic
 import com.guymichael.reactiveapp.utils.JsonUtils
-import com.guymichael.reactdroid.extensions.components.permissions.PermissionsLogic
-import com.guymichael.reactdroid.extensions.navigation.NavigationLogic
 import com.squareup.moshi.Moshi
 import io.objectbox.BoxStore
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -20,7 +20,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 abstract class BaseApplication : MultiDexApplication() {
 
     companion object {
-        internal lateinit var INSTANCE: BaseApplication
+        lateinit var INSTANCE: BaseApplication
 
         private const val SHARED_PREF_KEY_DENIED_PERMISSIONS = "deniedPermissionsSet"
     }
