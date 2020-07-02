@@ -20,7 +20,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 abstract class BaseApplication : MultiDexApplication() {
 
     companion object {
-        lateinit var INSTANCE: BaseApplication
+        internal lateinit var INSTANCE: BaseApplication
 
         private const val SHARED_PREF_KEY_DENIED_PERMISSIONS = "deniedPermissionsSet"
     }
