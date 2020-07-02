@@ -21,6 +21,7 @@ object DbLogic {
         return boxStore.boxFor(cls)
     }
 
+    @JvmStatic
     fun <T> getAll(cls: Class<T>): List<T> {
         return boxOf(cls)?.all.also {
 
@@ -34,6 +35,10 @@ object DbLogic {
             }
 
         } ?: emptyList()
+    }
+
+    fun <T : Any> getAll(cls: KClass<T>): List<T> {
+        return getAll(cls.java)
     }
 
     fun <T> get(cls: Class<T>, id: Long): T? {
