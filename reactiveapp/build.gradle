@@ -55,10 +55,10 @@ dependencies {
     api 'androidx.navigation:navigation-ui-ktx:2.3.0'
 
     //Reactdroid - includes com.github.APromise, androidx.core:core-ktx, androidx.appcompat:appcompat
-    api 'com.github.GuyMichael:Reactdroid:0.1.72'
+    api 'com.github.GuyMichael:Reactdroid:0.1.73'
 
     //Networking - Retrofit
-    api 'com.squareup.retrofit2:retrofit:2.8.1'
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
     api 'com.squareup.okhttp3:logging-interceptor:4.5.0'
         //json parsing - moshi
     api 'com.squareup.moshi:moshi:1.9.2'
