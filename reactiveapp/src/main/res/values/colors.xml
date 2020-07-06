@@ -29,9 +29,9 @@
         <!--DayNight-->
     <color name="dayNightBlack">@color/black</color>
     <color name="dayNightBlack87NoTransparency">@color/black87NoTransparency</color>
-    <color name="dayNightBlack70NoTransparency">@color/white70</color>
+    <color name="dayNightBlack70NoTransparency">@color/black70NoTransparency</color>
     <color name="dayNightBlack55">#8C000000</color>
-    <color name="dayNightBlack38NoTransparency">@color/white35</color>
+    <color name="dayNightBlack38NoTransparency">@color/black38NoTransparency</color>
     <color name="dayNightBlack15">@color/black15</color>
 
     <color name="dayNightWhite">#FFFFFF</color>
