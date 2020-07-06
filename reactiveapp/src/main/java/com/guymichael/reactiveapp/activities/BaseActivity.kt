@@ -18,7 +18,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.guymichael.kotlinreact.model.OwnProps
-import com.guymichael.reactiveapp.fragments.BaseFragment
 import com.guymichael.reactdroid.core.Utils
 import com.guymichael.reactdroid.core.activity.ComponentActivity
 import com.guymichael.reactdroid.core.fragment.ComponentFragment
@@ -28,6 +27,7 @@ import com.guymichael.reactdroid.extensions.components.dialog.ProgressDialogProp
 import com.guymichael.reactdroid.extensions.components.progressbar.SimpleProgressProps
 import com.guymichael.reactdroid.extensions.navigation.ClientPageIntf
 import com.guymichael.reactdroid.extensions.navigation.withStoreNavigation
+import com.guymichael.reactiveapp.fragments.BaseFragment
 
 /**
  * Contains boilerplate to wrap a reactdroid [AComponent] ('pageComponent)
@@ -192,11 +192,12 @@ abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE
 
     final override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        return getMenuRes()?.takeIf { it != 0 }?.let {
-            menuInflater.inflate(it, menu)
-            true
+        return super.onCreateOptionsMenu(menu)
+            && (getMenuRes()?.takeIf { it != 0 }?.let {
+                menuInflater.inflate(it, menu)
+                true
 
-        } ?: false //no menu
+            } ?: false) //no menu
     }
 
     final override fun onSupportNavigateUp(): Boolean {
