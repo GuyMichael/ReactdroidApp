@@ -12,8 +12,9 @@ import kotlin.reflect.KClass
 /** A callback for retrofit API [Call]s, suitable for Promise creation (through the [emitter] member) */
 abstract class BaseRetrofitApiCallback<R : Any, T>(
         protected val emitter: SingleEmitter<T>
-        , private val apiClientName: String
-        , private val responseClass: KClass<R>
+        , protected val apiClientName: String
+        , protected val responseClass: KClass<R>
+        , protected val errorResponseClass: KClass<*>? = null
     ): Callback<R> {
 
 
@@ -73,16 +74,21 @@ abstract class BaseRetrofitApiCallback<R : Any, T>(
     }
 
     protected open fun parseErrorBody(errorBody: ResponseBody?): Any? {
-        return  errorBody?.charStream()?.let {  reader ->
-                reader.readText().let {         json -> (
+        return errorBody?.charStream()?.let {  reader ->
+            reader.readText()
+                .let(::parseErrorBody)
+                .also { reader.close() }
+        }
+    }
 
-                    //try parsing to standard response type ('R')
-                    JsonUtils.fromJsonOrNull(json, responseClass.java)
+    protected open fun parseErrorBody(json: String): Any? {
+            //try parsing to error response type ('E')
+        return errorResponseClass?.let { JsonUtils.fromJsonOrNull(json, it.java) }
 
-                    //if parsing to 'R' failed, try parsing to some general error model
-                    ?: JsonUtils.fromJsonOrNull(json, ApiResponseGeneralError::class.java)
+            //or to standard response type ('R')
+            ?: JsonUtils.fromJsonOrNull(json, responseClass.java)
 
-                ).also { reader.close() }
-        }}
+            //or to some general error model
+            ?: JsonUtils.fromJsonOrNull(json, ApiResponseGeneralError::class.java)
     }
 }

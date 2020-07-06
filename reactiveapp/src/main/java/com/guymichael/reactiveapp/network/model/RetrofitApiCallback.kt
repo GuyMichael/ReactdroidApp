@@ -9,21 +9,28 @@ class RetrofitApiCallback<T : Any> private constructor(
         emitter: SingleEmitter<T>
         , apiClientName: String
         , responseClass: KClass<T>
-    ): BaseRetrofitApiCallback<T, T>(emitter, apiClientName, responseClass) {
+        , errorResponseClass: KClass<*>? = null
+    ): BaseRetrofitApiCallback<T, T>(emitter, apiClientName, responseClass, errorResponseClass) {
 
     override fun mapResponseToEmission(response: T) = response
 
     companion object {
-        fun <R : Any> of(emitter: SingleEmitter<R>, responseType: KClass<R>, apiClientName: String)
+        fun <R : Any> of(emitter: SingleEmitter<R>
+                , responseType: KClass<R>
+                , apiClientName: String
+                , errorResponseType: KClass<*>? = null
+            )
                 : RetrofitApiCallback<R> {
-            return RetrofitApiCallback(emitter, apiClientName, responseType)
+            return RetrofitApiCallback(emitter, apiClientName, responseType, errorResponseType)
         }
 
-        fun <R : Any> ofOptional(emitter: SingleEmitter<Optional<R>>, responseType: KClass<R>
+        fun <R : Any> ofOptional(emitter: SingleEmitter<Optional<R>>
+                , responseType: KClass<R>
                 , apiClientName: String
+                , errorResponseType: KClass<*>? = null
             ): OptionalRetrofitApiCallback<R> {
 
-            return OptionalRetrofitApiCallback(emitter, apiClientName, responseType)
+            return OptionalRetrofitApiCallback(emitter, apiClientName, responseType, errorResponseType)
         }
     }
 }
@@ -37,7 +44,8 @@ class OptionalRetrofitApiCallback<T : Any> internal constructor(
         emitter: SingleEmitter<Optional<T>>
         , apiClientName: String
         , responseClass: KClass<T>
-    ): BaseRetrofitApiCallback<T, Optional<T>>(emitter, apiClientName, responseClass) {
+        , errorResponseType: KClass<*>? = null
+    ): BaseRetrofitApiCallback<T, Optional<T>>(emitter, apiClientName, responseClass, errorResponseType) {
 
     override fun onSuccess(response: T?) {
         if (response == null) {
