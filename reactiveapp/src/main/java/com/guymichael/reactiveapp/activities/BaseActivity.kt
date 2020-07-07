@@ -2,10 +2,12 @@ package com.guymichael.reactiveapp.activities
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.NavUtils
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
@@ -35,6 +37,9 @@ import com.guymichael.reactiveapp.fragments.BaseFragment
  */
 abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE_PROPS: OwnProps>
     : ComponentActivity<P>(), LifecycleOwner {
+
+    /* activity */
+    protected var finishOnActionBarBack = true
 
     /* drawer */
     private var appBarConfiguration: AppBarConfiguration? = null
@@ -128,6 +133,10 @@ abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE
         navView.setupWithNavController(drawerController!!)
     }
 
+    fun hasDrawer(): Boolean {
+        return navHostFragmentId != null
+    }
+
     /** Set the progress shown/hidden along with all other props.
      * For easy showing, use [showBlockUiProgress].
      * For easy dismissal, use [dismissProgress] */
@@ -190,6 +199,16 @@ abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE
         } //else -> consumed
     }
 
+    override fun setSupportActionBar(toolbar: Toolbar?) {
+        super.setSupportActionBar(toolbar)
+
+        //allow normal 'back' (no drawer) to work as up (using manifest to set parent activity)
+        supportActionBar?.also {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setDisplayShowHomeEnabled(true)
+        }
+    }
+
     final override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         return super.onCreateOptionsMenu(menu)
@@ -198,6 +217,46 @@ abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE
                 true
 
             } ?: false) //no menu
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when {
+            item.itemId == android.R.id.home && !hasDrawer() -> {
+                //back pressed
+                setResult(RESULT_CANCELED)
+                if (!onToolbarBackPressed()) {
+                    if (this.finishOnActionBarBack) {
+                        onBackPressed()
+                        return true
+                    } else {
+                        //"back  - navigate up"
+                        try {
+                            NavUtils.navigateUpFromSameTask(this)
+                            //TODO:
+//                            overridePendingTransition(0, R.anim.activity_close_exit)
+                            true
+                        } catch (e: IllegalArgumentException) {
+                            //metadata not configured in manifest to have a parent
+                            false
+                            //THINK fallback to onBackPressed + true
+                        }
+                    }
+                } else {
+                    true
+                }
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
+    /**
+     * @return true to consume event and cancel all handling.
+     */
+    protected open fun onToolbarBackPressed(): Boolean {
+        return false
     }
 
     final override fun onSupportNavigateUp(): Boolean {
