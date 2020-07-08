@@ -228,7 +228,7 @@ abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE
                 if (!onToolbarBackPressed()) {
                     if (this.finishOnActionBarBack) {
                         onBackPressed()
-                        return true
+                        true
                     } else {
                         //"back  - navigate up"
                         try {
@@ -238,7 +238,7 @@ abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE
                             true
                         } catch (e: IllegalArgumentException) {
                             //metadata not configured in manifest to have a parent
-                            false
+                            super.onOptionsItemSelected(item)
                             //THINK fallback to onBackPressed + true
                         }
                     }
