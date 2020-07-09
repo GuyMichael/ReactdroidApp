@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Rect
 import android.os.Build
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.annotation.ColorInt
 import androidx.core.graphics.ColorUtils
@@ -73,5 +74,32 @@ object ViewUtils {
                 && viewY >= parentBounds.top
                 && viewY <= parentBounds.bottom
         }
+    }
+
+    @JvmStatic
+    fun findChild(parent: ViewGroup, predicate: (child: View) -> Boolean): View? {
+        var i = 0
+        while (i < parent.childCount) {
+            parent.getChildAt(i)?.let {child ->
+                //If it's a viewGroup, try to find deeper views which match this predicate (recursive)
+                if (ViewGroup::class.java.isInstance(child)) {
+                    (child as? ViewGroup)?.let { viewGroupChild ->
+                        //try to find a child of this viewGroup child
+                        findChild(viewGroupChild, predicate)?.let {
+                            return it
+                        }
+                    }
+                }
+
+                //inner child not found, try 'this'
+                if (predicate(child)) {
+                    return child
+                }
+            }
+
+            i += 1
+        }
+
+        return null
     }
 }
