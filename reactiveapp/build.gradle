@@ -74,9 +74,6 @@ dependencies {
     // so that MyObjectBox will be auto-generated (on app level - which holds the actual @Entity models)
     implementation "io.objectbox:objectbox-android:$objectboxVersion"
 
-    //QR Scanner
-    api "com.google.android.gms:play-services-vision:20.1.0"
-
     //ViewPager2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 }
