@@ -10,10 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NavUtils
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.NavController
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigator
-import androidx.navigation.findNavController
+import androidx.navigation.*
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -318,5 +315,9 @@ abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE
 
         //throws IllegalArgumentException if no match which rejects the promise
         ?: throw NoSuchFieldException("no drawer for this activity to open deep link on")
+    }
+
+    fun getCurrentDrawerDestination(): NavDestination? {
+        return drawerController?.currentDestination
     }
 }
