@@ -11,6 +11,8 @@ import androidx.core.app.NavUtils
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -305,10 +307,14 @@ abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE
      * @throws IllegalArgumentException if there's no match found for `resId`
      */
     @Throws(NoSuchFieldException::class, IllegalArgumentException::class)
-    fun openDrawerDeepLink(@IdRes resId: Int, props: OwnProps) {
+    fun openDrawerDeepLink(@IdRes resId: Int, props: OwnProps
+            , navOptions: NavOptions? = null
+            , navigatorExtras: Navigator.Extras? = null
+        ) {
+
         return drawerController?.navigate(resId, Bundle().also {
             it.putSerializable(ComponentFragment.ARGS_KEY_PROPS, props)
-        })
+        }, navOptions, navigatorExtras)
 
         //throws IllegalArgumentException if no match which rejects the promise
         ?: throw NoSuchFieldException("no drawer for this activity to open deep link on")
