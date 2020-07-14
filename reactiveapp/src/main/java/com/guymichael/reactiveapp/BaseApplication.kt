@@ -1,5 +1,6 @@
 package com.guymichael.reactiveapp
 
+import android.content.Context
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
@@ -113,4 +114,8 @@ fun getDimenPx(@DimenRes resId: Int): Int {
 
 fun getString(@StringRes textRes: Int, vararg format: Any): String {
     return BaseApplication.INSTANCE.getString(textRes, *format)
+}
+
+fun getAppContext(): Context {
+    return BaseApplication.INSTANCE.applicationContext
 }

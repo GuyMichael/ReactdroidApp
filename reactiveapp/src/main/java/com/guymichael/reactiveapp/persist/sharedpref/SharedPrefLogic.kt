@@ -206,6 +206,28 @@ object SharedPrefLogic {
     }
 
     /**
+     * @param synchronous if true, [SharedPreferences.Editor.commit] is used to synchronously
+     * commit given `value` to disk, in which case this method's return value (Boolean) is Non-null,
+     * and expresses whether the commit to disk succeeded or not.
+     * If false, in-memory commit is immediate as well, but commit to disk is asynchronous,
+     * in which case this method will return `null` (always), as the actual commit-to-disk response
+     * is unknown
+     *
+     * @return value depends on the `synchronous` argument:
+     * if argument is `true`, returned value is `true` if writing to disk succeeded, false otherwise.
+     * If argument is `false`, returned value is always `null`
+     */
+    fun putBoolean(key: String, value: Boolean?, synchronous: Boolean = false): Boolean? {
+        return mSharedPref.edit().let {
+            if (value == null) {
+                it.remove(key)
+            } else {
+                it.putBoolean(key, value)
+            }
+        }.save(synchronous, "putBoolean")
+    }
+
+    /**
      * Puts list as a (json) String.
      *
      * @param synchronous if true, [SharedPreferences.Editor.commit] is used to synchronously
