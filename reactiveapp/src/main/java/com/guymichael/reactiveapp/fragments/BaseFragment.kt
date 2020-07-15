@@ -35,6 +35,9 @@ abstract class BaseFragment<P: OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE_
 
     final override fun onBindViews(fragmentView: View) {
         this.pageComponent = createPageComponent(fragmentView)
+        if (getMenuRes() != null) {
+            setHasOptionsMenu(true)
+        }
     }
 
     final override fun onHardwareBackPressed(): Boolean {
