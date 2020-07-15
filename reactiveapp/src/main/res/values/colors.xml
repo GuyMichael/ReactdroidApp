@@ -8,6 +8,7 @@
     <color name="black70">#B3000000</color>
     <color name="black70NoTransparency">#474747</color><!-- ~0.715 opacity -->
     <color name="black55">#8C000000</color>
+    <color name="black55NoTransparency">#737373</color>
     <color name="black38">#61000000</color>
     <color name="black38NoTransparency">#9E9E9E</color>
     <color name="black25">#40000000</color>
@@ -32,6 +33,7 @@
     <color name="dayNightBlack87NoTransparency">@color/black87NoTransparency</color>
     <color name="dayNightBlack70NoTransparency">@color/black70NoTransparency</color>
     <color name="dayNightBlack55">#8C000000</color>
+    <color name="dayNightBlack55NoTransparency">@color/black55NoTransparency</color>
     <color name="dayNightBlack38NoTransparency">@color/black38NoTransparency</color>
     <color name="dayNightBlack15">@color/black15</color>
     <color name="dayNightBlack15NoTransparency">@color/black15NoTransparency</color>
