@@ -29,6 +29,7 @@ import com.guymichael.reactdroid.extensions.components.progressbar.SimpleProgres
 import com.guymichael.reactdroid.extensions.navigation.ClientPageIntf
 import com.guymichael.reactdroid.extensions.navigation.withStoreNavigation
 import com.guymichael.reactiveapp.fragments.BaseFragment
+import com.guymichael.reactiveapp.model.ScreenPage
 
 /**
  * Contains boilerplate to wrap a reactdroid [AComponent] ('pageComponent)
@@ -224,7 +225,7 @@ abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE
     }
 
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    final override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when {
             item.itemId == android.R.id.home && !hasDrawer() -> {
                 //back pressed
@@ -251,7 +252,13 @@ abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE
                 }
             }
 
-            else -> super.onOptionsItemSelected(item)
+            else -> pageComponent.let{ page ->
+                if (page is ScreenPage) {
+                    page.onOptionsItemSelected(item) || super.onOptionsItemSelected(item)
+                } else {
+                    super.onOptionsItemSelected(item)
+                }
+            }
         }
     }
 

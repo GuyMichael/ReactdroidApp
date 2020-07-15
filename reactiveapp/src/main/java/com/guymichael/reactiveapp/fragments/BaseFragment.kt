@@ -7,6 +7,7 @@ import com.guymichael.kotlinreact.model.EmptyOwnState
 import com.guymichael.kotlinreact.model.OwnProps
 import com.guymichael.reactdroid.core.fragment.ComponentFragment
 import com.guymichael.reactdroid.core.model.AComponent
+import com.guymichael.reactiveapp.model.ScreenPage
 
 /**
  * In charge of all the boilerplate to wrap a reactdroid [AComponent] ('pageComponent)
@@ -73,12 +74,28 @@ abstract class BaseFragment<P: OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE_
         Logger.d(this.javaClass, "componentWillUnmount")
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
+
+
+
+
+    /* Android */
+
+    final override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
         (getMenuRes()?.takeIf { it != 0 })?.also {
             menuInflater.inflate(it, menu)
 
             this.menu = menu
+        }
+    }
+
+    final override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return pageComponent.let { page ->
+            if (page is ScreenPage) {
+                page.onOptionsItemSelected(item) || super.onOptionsItemSelected(item)
+            } else {
+                super.onOptionsItemSelected(item)
+            }
         }
     }
 }
