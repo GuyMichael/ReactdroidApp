@@ -68,7 +68,7 @@ dependencies {
 //    implementation 'com.squareup.moshi:moshi-kotlin:1.9.2'    //moshi - reflection adapter
 
     //picasso - load image by url
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    api 'com.squareup.picasso:picasso:2.71828'
 
     //Objectbox - for lib module only. Used for DbLogic. App-module should also use, with kapt as well,
     // so that MyObjectBox will be auto-generated (on app level - which holds the actual @Entity models)
