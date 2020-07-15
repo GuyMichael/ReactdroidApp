@@ -11,6 +11,7 @@
     <color name="dayNightBlack38NoTransparency">@color/white40</color>
     <color name="dayNightBlack15">@color/white15</color>
     <color name="dayNightBlack15NoTransparency">@color/white15</color>
+    <color name="dayNightBlack05NoTransparency">@color/white05</color>
 
     <color name="dayNightWhite">@android:color/black</color>
     <color name="dayNightWhite35">@color/black38</color>

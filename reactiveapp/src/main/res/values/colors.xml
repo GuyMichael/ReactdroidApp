@@ -18,8 +18,10 @@
     <color name="black10">#1A000000</color>
     <color name="black10NoTransparency">#e5e5e5</color>
     <color name="black05">#0D000000</color>
+    <color name="black05NoTransparency">#F2F2F2</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="white05">#0CFFFFFF</color>
     <color name="white15">#26FFFFFF</color>
     <color name="white20">#33FFFFFF</color>
     <color name="white35">#59FFFFFF</color>
@@ -37,6 +39,7 @@
     <color name="dayNightBlack38NoTransparency">@color/black38NoTransparency</color>
     <color name="dayNightBlack15">@color/black15</color>
     <color name="dayNightBlack15NoTransparency">@color/black15NoTransparency</color>
+    <color name="dayNightBlack05NoTransparency">@color/black05NoTransparency</color>
 
     <color name="dayNightWhite">#FFFFFF</color>
     <color name="dayNightWhite35">@color/white35</color>
