@@ -39,6 +39,7 @@ abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE
 
     /* activity */
     protected var finishOnActionBarBack = true
+    private var menu: Menu? = null
 
     /* drawer */
     private var appBarConfiguration: AppBarConfiguration? = null
@@ -182,8 +183,11 @@ abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE
             || super.onHardwareBackPressed()
     }
 
+    protected open fun renderMenu(menu: Menu) {}
+
     final override fun render() {
         pageComponent.onRender(mapActivityPropsToPageProps(this.props))
+        menu?.also(::renderMenu)
     }
 
 
@@ -213,6 +217,7 @@ abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE
         return super.onCreateOptionsMenu(menu)
             && (getMenuRes()?.takeIf { it != 0 }?.let {
                 menuInflater.inflate(it, menu)
+                this.menu = menu
                 true
 
             } ?: false) //no menu

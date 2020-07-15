@@ -1,8 +1,7 @@
 package com.guymichael.reactiveapp.fragments
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.annotation.MenuRes
 import com.guymichael.kotlinreact.Logger
 import com.guymichael.kotlinreact.model.EmptyOwnState
 import com.guymichael.kotlinreact.model.OwnProps
@@ -18,16 +17,20 @@ abstract class BaseFragment<P: OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE_
 
     private lateinit var pageComponent: C
 
+    private var menu: Menu? = null
+
 
 
     protected abstract fun createPageComponent(layout: View): C
     protected abstract fun mapFragmentPropsToPageProps(props: P): PAGE_PROPS
+    @MenuRes
+    protected open fun getMenuRes(): Int? = null
 
 
 
 
 
-
+    /* Reactdroid */
 
     final override fun onBindViews(fragmentView: View) {
         this.pageComponent = createPageComponent(fragmentView)
@@ -37,9 +40,12 @@ abstract class BaseFragment<P: OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE_
         return pageComponent.onHardwareBackPressed()
     }
 
-    override fun render() {
-        Logger.e(this.javaClass, "render")
+    protected open fun renderMenu(menu: Menu) {}
+
+    final override fun render() {
+        Logger.d(this.javaClass, "render")
         pageComponent.onRender(mapFragmentPropsToPageProps(this.props))
+        menu?.also(::renderMenu)
     }
 
 
@@ -51,22 +57,28 @@ abstract class BaseFragment<P: OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE_
     final override fun onBindViewListeners() {}
 
 
-
-
-
     override fun componentWillMount() {
-        Logger.e(this.javaClass, "componentWillMount")
+        Logger.d(this.javaClass, "componentWillMount")
     }
 
     override fun componentDidMount() {
-        Logger.e(this.javaClass, "componentDidMount")
+        Logger.d(this.javaClass, "componentDidMount")
     }
 
     override fun componentDidUpdate(prevProps: P, prevState: EmptyOwnState, snapshot: Any?) {
-        Logger.e(this.javaClass, "componentDidUpdate")
+        Logger.d(this.javaClass, "componentDidUpdate")
     }
 
     override fun componentWillUnmount() {
-        Logger.e(this.javaClass, "componentWillUnmount")
+        Logger.d(this.javaClass, "componentWillUnmount")
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        (getMenuRes()?.takeIf { it != 0 })?.also {
+            menuInflater.inflate(it, menu)
+
+            this.menu = menu
+        }
     }
 }
