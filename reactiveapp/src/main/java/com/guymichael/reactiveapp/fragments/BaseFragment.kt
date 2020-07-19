@@ -18,9 +18,6 @@ abstract class BaseFragment<P: OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE_
 
     private lateinit var pageComponent: C
 
-    private var menu: Menu? = null
-
-
 
     protected abstract fun createPageComponent(layout: View): C
     protected abstract fun mapFragmentPropsToPageProps(props: P): PAGE_PROPS
@@ -44,12 +41,9 @@ abstract class BaseFragment<P: OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE_
         return pageComponent.onHardwareBackPressed()
     }
 
-    protected open fun renderMenu(menu: Menu) {}
-
     final override fun render() {
         Logger.d(this.javaClass, "render")
         pageComponent.onRender(mapFragmentPropsToPageProps(this.props))
-        menu?.also(::renderMenu)
     }
 
 
@@ -88,7 +82,11 @@ abstract class BaseFragment<P: OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE_
         (getMenuRes()?.takeIf { it != 0 })?.also {
             menuInflater.inflate(it, menu)
 
-            this.menu = menu
+            pageComponent.also { page ->
+                if (page is ScreenPage) {
+                    page.onSaveOptionsMenu(menu)
+                }
+            }
         }
     }
 
