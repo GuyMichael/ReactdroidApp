@@ -5,5 +5,5 @@ import android.view.MenuItem
 
 interface ScreenPage {
     fun onSaveOptionsMenu(menu: Menu)
-    fun onOptionsItemSelected(item: MenuItem): Boolean
+    fun onMenuItemSelected(item: MenuItem): Boolean
 }

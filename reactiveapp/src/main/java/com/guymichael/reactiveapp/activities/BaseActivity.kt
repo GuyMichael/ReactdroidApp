@@ -259,7 +259,7 @@ abstract class BaseActivity<P : OwnProps, C : AComponent<PAGE_PROPS, *, *>, PAGE
 
             else -> pageComponent.let{ page ->
                 if (page is ScreenPage) {
-                    page.onOptionsItemSelected(item) || super.onOptionsItemSelected(item)
+                    page.onMenuItemSelected(item) || super.onOptionsItemSelected(item)
                 } else {
                     super.onOptionsItemSelected(item)
                 }
