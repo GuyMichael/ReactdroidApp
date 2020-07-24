@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 import java.lang.reflect.Type
 
 /** https://github.com/square/retrofit/issues/2329 */
-object UnitConverterFactory : Converter.Factory() {
+object RetrofitUnitConverterFactory : Converter.Factory() {
     override fun responseBodyConverter(
             type: Type, annotations: Array<out Annotation>
             , retrofit: Retrofit
