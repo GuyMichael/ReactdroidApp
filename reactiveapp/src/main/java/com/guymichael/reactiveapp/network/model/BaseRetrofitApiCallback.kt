@@ -1,5 +1,7 @@
 package com.guymichael.reactiveapp.network.model
 
+import com.guymichael.kotlinreact.Logger
+import com.guymichael.reactiveapp.BuildConfig
 import com.guymichael.reactiveapp.network.ApiManager
 import com.guymichael.reactiveapp.utils.JsonUtils
 import io.reactivex.rxjava3.core.SingleEmitter
@@ -25,6 +27,16 @@ abstract class BaseRetrofitApiCallback<R : Any, T>(
     /* Overrides */
 
     override fun onResponse(call: Call<R>, response: Response<R>) {
+        if (emitter.isDisposed) {
+            //UndeliverableException: The exception could not be delivered to the consumer because
+            // it has already canceled/disposed the flow or the exception has nowhere to go to begin with
+            Logger.d(javaClass, "onResponse($response) : emitter disposed, can't deliver response")
+
+            return
+        }
+
+
+
         if (response.isSuccessful) {
             onSuccess(response.body())
         } else {
@@ -40,6 +52,17 @@ abstract class BaseRetrofitApiCallback<R : Any, T>(
     }
 
     override fun onFailure(call: Call<R>, e: Throwable) {
+        if (emitter.isDisposed) {
+            //UndeliverableException: The exception could not be delivered to the consumer because
+            // it has already canceled/disposed the flow or the exception has nowhere to go to begin with
+            Logger.d(javaClass, "onFailure(${responseClass.simpleName}) : emitter disposed, can't deliver error - ${e.message}")
+            if (BuildConfig.DEBUG) {
+                e.printStackTrace()
+            }
+
+            return
+        }
+
         emitter.onError(
             ApiError(null
                 , e
