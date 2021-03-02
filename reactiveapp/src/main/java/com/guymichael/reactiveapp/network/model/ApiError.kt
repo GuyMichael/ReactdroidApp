@@ -12,4 +12,12 @@ data class ApiError(val errorBody: Any?, val e: Throwable?, val code: Int, val a
 
     override val message: String
         get() = super.message!! //we make sure it's not null in constructor
+
+    companion object {
+        /** @return [ApiError] or null if `e` is not an instance of [ApiError] */
+        @JvmStatic
+        fun parseOrNull(e: Throwable): ApiError? {
+            return e as? ApiError?
+        }
+    }
 }
