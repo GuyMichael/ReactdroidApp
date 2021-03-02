@@ -1,14 +1,22 @@
 package com.guymichael.reactiveapp.utils
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
 import android.os.Build
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ClickableSpan
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.appcompat.R
 import androidx.core.graphics.ColorUtils
 import com.guymichael.reactdroid.core.Utils
+import com.guymichael.reactdroid.core.model.AComponent
 
 object ViewUtils {
 
@@ -101,5 +109,86 @@ object ViewUtils {
         }
 
         return null
+    }
+
+    /**
+     * @param context an [Activity] or a [Context] contained inside one
+     * @return
+     */
+    @JvmStatic
+    fun getStatusBarHeight(context: Context): Int {
+        return Rect().also { rect ->
+            Utils.getActivity(context)?.window?.decorView?.also {
+                it.getWindowVisibleDisplayFrame(rect)
+            }
+        }.top
+    }
+
+    /**
+     * Returns the actual top (Y) of the view, relative to screen.
+     * Only relevant if view is measured and visible/attached (or else 0 is returned)
+     *
+     * @param considerStatusBar If True, consider the status bar in calculations (results in higher value)
+     * @return global top (distance) in px
+     */
+    @JvmStatic
+    fun getGlobalTop(view: View, considerStatusBar: Boolean): Int {
+        val i = IntArray(2)
+        view.getLocationOnScreen(i)
+
+        return try {
+            i[1] + if (considerStatusBar) 0 else -getStatusBarHeight(view.context)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            0
+        }
+    }
+
+    /**
+     * Returns the actual top (Y) of the view, relative to screen.
+     * Only relevant if view is measured and visible/attached (or else 0 is returned)
+     *
+     * @param considerStatusBar If True, consider the status bar in calculations (results in higher value)
+     * @return global top (distance) in px
+     */
+    @JvmStatic
+    fun getGlobalTop(component: AComponent<*, *, *>, considerStatusBar: Boolean): Int {
+        return getGlobalTop(component.mView, considerStatusBar)
+    }
+
+    /**
+     * @return Actionbar / Toolbar standard height for `context`'s theme or 0 if attribute not found in theme
+     */
+    @JvmStatic
+    fun getActionbarHeight(context: Context, @AttrRes globalAttr: Int = R.attr.actionBarSize): Int {
+        // Calculate ActionBar height
+        val tv = TypedValue()
+        return if (context.theme.resolveAttribute(globalAttr, tv, true)) {
+            TypedValue.complexToDimensionPixelSize(tv.data, context.resources.displayMetrics)
+        } else 0
+    }
+
+    @JvmStatic
+    fun asLink(
+        text: CharSequence
+        , url: String
+        , onClick: (View, url: String) -> Unit = { v, urlInner ->
+            com.guymichael.reactdroid.extensions.router.Utils.openLink(v.context, urlInner)
+        }
+    ): Spanned {
+
+        return SpannableString(text).also {
+            it.setSpan(
+                object : ClickableSpan() {
+                    override fun onClick(widget: View) {
+                        onClick.invoke(widget, url)
+                    }
+                }
+
+                , 0
+                , text.length
+                , Spanned.SPAN_INTERMEDIATE
+            )
+        }
     }
 }
