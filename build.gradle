@@ -2,7 +2,7 @@
 
 buildscript {
     ext.kotlin_version = '1.4.31'
-    ext.objectboxVersion = '2.5.1'
+    ext.objectboxVersion = '2.9.0'
 
     repositories {
         google()

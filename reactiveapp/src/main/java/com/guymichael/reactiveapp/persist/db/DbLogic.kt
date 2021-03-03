@@ -144,6 +144,16 @@ object DbLogic {
         }
     }
 
+    /** a more efficient check (than get() !+ null)*/
+    fun <T: Any> contains(cls: Class<T>, id: Long): Boolean {
+        return boxOf(cls)?.contains(id) ?: false
+    }
+
+    /** a more efficient check (than get() !+ null)*/
+    fun <T: Any> contains(cls: KClass<T>, id: Long): Boolean {
+        return contains(cls.java, id)
+    }
+
     /** Note: it does NOT remove related entities!!! (e.g. ToOne), see here: https://github.com/objectbox/objectbox-java/issues/79 */
     fun <T: Any> remove(list: List<T>): Boolean {
         return try {

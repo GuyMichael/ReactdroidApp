@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -55,16 +55,15 @@ dependencies {
     api 'androidx.navigation:navigation-ui-ktx:2.3.3'
 
     //Reactdroid - includes com.github.APromise, androidx.core:core-ktx, androidx.appcompat:appcompat, material
-    api 'com.github.GuyMichael:Reactdroid:0.1.83'
+    api 'com.github.GuyMichael:Reactdroid:0.1.84'
 
     //Networking - Retrofit
     api 'com.squareup.retrofit2:retrofit:2.9.0'
-    api 'com.squareup.okhttp3:logging-interceptor:4.5.0'
         //json parsing - moshi
-    api 'com.squareup.moshi:moshi:1.9.2'
-    api 'com.squareup.retrofit2:converter-moshi:2.8.1'
+    api 'com.squareup.moshi:moshi:1.11.0'
+    api 'com.squareup.retrofit2:converter-moshi:2.9.0'
         //moshi codegen - auto generated adapters at compile time
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.9.2")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.11.0")
 //    implementation 'com.squareup.moshi:moshi-kotlin:1.9.2'    //moshi - reflection adapter
 
     //picasso - load image by url
