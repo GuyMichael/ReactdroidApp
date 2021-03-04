@@ -5,9 +5,14 @@ various features/abilities, such as network (API), DB, cache and more.
 
 For a working app that uses this library, [just go here](https://github.com/GuyMichael/ReactdroidAppExample)
 
+To import this project using Gradle:
+```kotlin
+implementation 'com.github.GuyMichael:ReactiveApp:0.1.21'
+```
+
 ### Usage Examples
 Assuming you're already familiar with [_Reactdroid_](https://github.com/GuyMichael/Reactdroid), below are
-some usueful features this library adds to it:
+some usueful features this library adds to it.
 
 #### Networking (API)
 Using this library you can easily set multiple API clients with different domains, authentication
