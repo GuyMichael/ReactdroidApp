@@ -5,6 +5,8 @@ various features/abilities, such as network (API), DB, cache and more.
 
 For a working app that uses this library, [just go here](https://github.com/GuyMichael/ReactdroidAppExample)
 
+For extensive articles about how this architecture is built, [read here on Medium](https://medium.com/nerd-for-tech/react-redux-in-kotlin-for-truly-native-mobile-development-25229937d4f)
+
 To import this project using Gradle:
 ```kotlin
 implementation 'com.github.GuyMichael:ReactiveApp:0.1.21'
