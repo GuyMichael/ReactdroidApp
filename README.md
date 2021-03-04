@@ -29,7 +29,7 @@ ApiRequest.of(ApiNetflixTitlesGet::class, ApiClientName.NETFLIX) {
   }
   .withDataDispatch(           //an APromise extension
     DataTypeNetflixTitle       //DataType defines putting/retreiving some model from the Store (& DB)
-    , { it.ITEMS }             //map the API response to the DataType model/type
+    , { it.titles }            //map the API response model to the DataType model/type
     , merge = true             //define whether to replace new data with existing data, or merge (by IDs)
     , persist = true           //define whether to also persist the data (to DB) or not
   )
