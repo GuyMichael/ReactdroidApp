@@ -86,8 +86,8 @@ Note: the current DB layer (_DbLogic_ class) uses [_ObjectBox_](https://docs.obj
         }
 
         override fun removeFromPersistOrThrow(data: List<NetflixTitle>) {
-            //sadly, ObjectBox still doesn't allow to 'remove()' by some 'key', other than the Table id.
-            // --> Otherwise, we'd define some 'uniqueKey' on the Table model that will be the same as the Store model's id.
+            //sadly, ObjectBox still doesn't allow to 'remove()' by some 'key', other than the Table id. Otherwise,
+            //we'd define some 'uniqueKey' on the Table model that will be the same as the Store model's id.
             //Note: Table (autoincrement) id is not the same as the (Store) model id (which comes from the server).
             DbLogic.remove(data.map {
                 Table_NetflixTitle.fromStoreModel(it) //we use to whole Table model to remove:/
