@@ -102,3 +102,23 @@ Note: the current DB layer (_DbLogic_ class) uses [_ObjectBox_](https://docs.obj
         }
     }
 ````
+That's it! You now connected your (Store) model to the DB.
+'Outside world' (e.g. your UI _Components_) doesn't need to know about it!
+
+Let's see the '`withDataDispatch(persist = true)`' example again just to make sure we got it.
+So, once your _DataType_ is defined to work with your DB, this is how to persist to it from your fetch API's:
+````kotlin
+  ApiRequest.of(ApiNetflixTitlesGet::class, ApiClientName.NETFLIX) { it.searchTitles() }
+  .withDataDispatch(           
+    DataTypeNetflixTitle       
+    , { it.titles }            
+    , merge = true             //or false, to replace all titles that are currently in the Store/DB
+    , persist = true           //or false, to ignore the DB for this call
+    
+    //in case there are side effects (persist/dispatch) you need to do
+    //(e.g. change some state according to your UI response, regardless of the data models)
+    , persistSideEffects = { /* e.g. SharedPrefLogic.setTitlesEverLoadedForAnalytics(true) */ }
+    , dispatchSideEffects = { /* e.g. MainStore.dispatchIncrementTitlesLoadCount() */ }
+  )
+  .execute()
+````
