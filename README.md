@@ -16,17 +16,17 @@ might change the underlying library and use [_Ktor_](https://ktor.io/docs/reques
 
 Here is how you request some _Netflix_ API, defined with a _Retrofit_ interface.
 This call returns an [_APromise_](https://github.com/GuyMichael/APromise) instance:
-````kotlin
+```kotlin
                 //Retrofit interface        //String(Def) to refer to a particular ApiClient
   ApiRequest.of(ApiNetflixTitlesGet::class, ApiClientName.NETFLIX) {
       it.searchTitles() //execute the Retrofit interface method
   } //returns an APromise
-````
+```
 
 And here is how you may connect this API to a _Reactdroid Store_,
 to handle the _Dispatch_ (to the _Store_) for you. You can also use it to persist the
 response/data to the DB.
-````kotlin
+```kotlin
 ApiRequest.of(ApiNetflixTitlesGet::class, ApiClientName.NETFLIX) {
       it.searchTitles()
   }
@@ -37,10 +37,10 @@ ApiRequest.of(ApiNetflixTitlesGet::class, ApiClientName.NETFLIX) {
     , persist = true           //define whether to also persist the data (to DB) or not
   )
   .execute()
-````
+```
 
 And this is how you can 'loadOrFetch', to fetch only if some data isn't already in the cache (_Store_ / DB).
-````kotlin
+```kotlin
   ApiController.loadOrFetch(
         //the DataType to look for in the Store/DB
       DataTypeNetflixTitle
@@ -49,7 +49,7 @@ And this is how you can 'loadOrFetch', to fetch only if some data isn't already 
         it.searchTitles()
       }}
   ) //APromise
-````
+```
 
 #### DB / Cache
 The general approach of this library regarding DB (and cache) is simple - it should be transparent.
@@ -69,7 +69,7 @@ Note: the current DB layer (_DbLogic_ class) uses [_ObjectBox_](https://docs.obj
       You can, however, use any DB you like, you don't have to use _DbLogic_(!) -
       just change the callbacks' implementation and you're done.
 
-````kotlin
+```kotlin
     object DataTypeNetflixTitle : StoreDataType<NetflixTitle>() {
     
         override fun persistOrThrow(data: List<NetflixTitle>) {
@@ -101,13 +101,13 @@ Note: the current DB layer (_DbLogic_ class) uses [_ObjectBox_](https://docs.obj
             DbLogic.removeAll(Table_NetflixTitle::class)
         }
     }
-````
+```
 That's it! You now connected your (Store) model to the DB.
 'Outside world' (e.g. your UI _Components_) doesn't need to know about it!
 
 Let's see the '`withDataDispatch(persist = true)`' example again just to make sure we got it.
 So, once your _DataType_ is defined to work with your DB, this is how to persist to it from your fetch API's:
-````kotlin
+```kotlin
   ApiRequest.of(ApiNetflixTitlesGet::class, ApiClientName.NETFLIX) { it.searchTitles() }
   .withDataDispatch(           
     DataTypeNetflixTitle       
@@ -121,7 +121,7 @@ So, once your _DataType_ is defined to work with your DB, this is how to persist
     , dispatchSideEffects = { /* e.g. MainStore.dispatchIncrementTitlesLoadCount() */ }
   )
   .execute()
-````
+```
 
 The only thing missing is defining _when_ to load some (existing) DB models - into the Store - after the app was opened.
 You may do it on app-start, in which case the DB is completely transparent to you as a developer,
@@ -131,7 +131,7 @@ is not necessary outside of this page (or before it was open), thus there's no n
 First, this is how you define your DB to load into the cache (Store) immediately on app-start, to be present to the UI
 as soon as the user opens the app. This is done simply by defining the default-state of your _DataReducer_ -
 which is already present in [_Reactdroid_](https://github.com/GuyMichael/Reactdroid).
-````kotlin
+```kotlin
     object MainDataReducer : DataReducer() {
         override fun getDefaultStatePersistenceTypes() = listOf(
             //all DataType here will be used to load their related DB Tables to the Store,
@@ -139,11 +139,11 @@ which is already present in [_Reactdroid_](https://github.com/GuyMichael/Reactdr
             , DataTypeNetflixTitle
         )
     }
-````
+```
 Yep, piece of cake. You're done.
 
 Now let's see how you do it lazy. By the way, we already learnt how to do it in an example above:)
-````kotlin
+```kotlin
     //loadOrFetch will load your existing DB Tables to the Store - if not already present.
     //If the DB is also empty, it will execute the given 'ApiRequest'
     ApiController.loadOrFetch(
@@ -156,7 +156,7 @@ Now let's see how you do it lazy. By the way, we already learnt how to do it in 
         //DB loaded (Dispatched) into the Store, or API was executed (and Dispatched into the Store)
     }
     .execute()
-````
+```
 For example, you can execute this call from your UI _Component_'s `componentDidMount()` callback,
 so when some data-relevant page opens, it will execute this lazy-load logic.
 Note: it's better to write this logic in your feature's _Logic_ _class_ and just _execute_ it from your _Component_.
