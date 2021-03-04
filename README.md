@@ -46,8 +46,6 @@ And this is how you can 'loadOrFetch', to fetch only if some data isn't already 
       , { ApiRequest.of(ApiNetflixTitlesGet::class, ApiClientName.NETFLIX) {
         it.searchTitles()
       }}
-        //the current state (GlobalState of the Store) to look for cached data
-      , state
   ) //APromise
 ````
 
@@ -121,4 +119,39 @@ So, once your _DataType_ is defined to work with your DB, this is how to persist
     , dispatchSideEffects = { /* e.g. MainStore.dispatchIncrementTitlesLoadCount() */ }
   )
   .execute()
+````
+
+The only thing missing is defining _when_ to load some (existing) DB models - into the Store - after the app was opened.
+You may do it on app-start, in which case the DB is completely transparent to you as a developer,
+or do it lazy - which is helpful if there's some inner page which requires a lot of data, and that data
+is not necessary outside of this page (or before it was open), thus there's no need to load it to cache (Store) on app-starts.
+
+First, this is how you define your DB to load into the cache (Store) immediately on app-start, to be present to the UI
+as soon as the user opens the app. This is done simply by defining the default-state of your _DataReducer_ -
+which is already present in [_Reactdroid_](https://github.com/GuyMichael/Reactdroid).
+````kotlin
+    object MainDataReducer : DataReducer() {
+        override fun getDefaultStatePersistenceTypes() = listOf(
+            //all DataType here will be used to load their related DB Tables to the Store,
+            //immediately when the app starts
+            , DataTypeNetflixTitle
+        )
+    }
+````
+Yep, piece of cake. You're done.
+
+Now let's see how you do it lazy. By the way, we already learnt how to do it in some example above:)
+````kotlin
+    //loadOrFetch will load your existing DB Tables to the Store - if not already present.
+    //If the DB is also empty, it will execute the given 'ApiRequest'
+    ApiController.loadOrFetch(
+        DataTypeNetflixTitle
+        , { ApiRequest.of(ApiNetflixTitlesGet::class, ApiClientName.NETFLIX) {
+            it.searchTitles()
+        }}
+    )
+    .then {
+        //DB loaded (Dispatched) into the Store, or API was executed (and Dispatched into the Store)
+    }
+    .execute()
 ````
