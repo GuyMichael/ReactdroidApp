@@ -7,7 +7,7 @@ various features/abilities, such as network (API), DB, cache and more.
 Assuming you're already familiar with (Reactdroid)[https://github.com/GuyMichael/Reactdroid], below are
 some usueful features this library adds to it:
 
-#####Networking (API)
+##### Networking (API)
 Using this library you can easily set multiple API clients with different domains, authentication
 and other settings. It is built on top of (Retrofit)[https://square.github.io/retrofit/]. Future releases
 might change the underlying library and use (Ktor)[https://ktor.io/docs/request.html] to support (Multiplatform)[https://kotlinlang.org/lp/mobile/].
@@ -16,6 +16,8 @@ Here is how you request some _Netflix_ API, defined with _Retrofit_ and this lib
 This call returns an (APromise)[https://github.com/GuyMichael/APromise] instance:
 ````kotlin
   ApiRequest.of(ApiNetflixTitlesGet::class, ApiClientName.NETFLIX) {
-      it.advancedSearch()
-  }
+                //a Retrofit interface      //some String(Def) to refer to a particular ApiClient
+  
+      it.searchTitles() //execute the Retrofit interface method
+  } //returns an APromise
 ````
