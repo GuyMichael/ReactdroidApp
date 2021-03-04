@@ -20,3 +20,18 @@ This call returns an [_APromise_](https://github.com/GuyMichael/APromise) instan
       it.searchTitles() //execute the Retrofit interface method
   } //returns an APromise
 ````
+
+And here is how you may connect this API to a _Reactdroid Store_, to handle the _Dispatch_
+and the persistence (DB) for you, automatically:
+````kotlin
+ApiRequest.of(ApiNetflixTitlesGet::class, ApiClientName.NETFLIX) {
+      it.searchTitles()
+  }
+  .withDataDispatch(           //an APromise extension
+    DataTypeNetflixTitle       //DataType defines putting/retreiving some model from the Store (& DB)
+    , { it.ITEMS }             //map the API response to the DataType model/type
+    , merge = true             //define whether to replace new data with existing data, or merge (by IDs)
+    , persist = true           //define whether to also persist the data (to DB) or not
+  )
+  .execute()
+````
