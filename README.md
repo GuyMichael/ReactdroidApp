@@ -48,5 +48,5 @@ And this is how you can 'loadOrFetch', to fetch only if some data isn't already 
       }}
         //the current state (GlobalState of the Store) to look for cached data
       , state
-  )
+  ) //APromise
 ````
