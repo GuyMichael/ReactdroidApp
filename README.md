@@ -21,8 +21,9 @@ This call returns an [_APromise_](https://github.com/GuyMichael/APromise) instan
   } //returns an APromise
 ````
 
-And here is how you may connect this API to a _Reactdroid Store_, to handle the _Dispatch_
-and the persistence (DB) for you, automatically:
+And here is how you may connect this API to a _Reactdroid Store_,
+to handle the _Dispatch_ (to the _Store_) for you. You can also use it to persist the
+response/data to the DB.
 ````kotlin
 ApiRequest.of(ApiNetflixTitlesGet::class, ApiClientName.NETFLIX) {
       it.searchTitles()
@@ -34,4 +35,18 @@ ApiRequest.of(ApiNetflixTitlesGet::class, ApiClientName.NETFLIX) {
     , persist = true           //define whether to also persist the data (to DB) or not
   )
   .execute()
+````
+
+And this is how you can 'loadOrFetch', to fetch only if some data isn't already in the cache (_Store_ / DB).
+````kotlin
+  ApiController.loadOrFetch(
+        //the DataType to look for in the Store/DB
+      DataTypeNetflixTitle
+        //the API request - same as before
+      , { ApiRequest.of(ApiNetflixTitlesGet::class, ApiClientName.NETFLIX) {
+        it.searchTitles()
+      }}
+        //the current state (GlobalState of the Store) to look for cached data
+      , state
+  )
 ````
