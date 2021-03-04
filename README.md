@@ -3,6 +3,8 @@ A complete library for developing a reactive, component-based Android applicatio
 This library is built on top of the [_Reactdroid_](https://github.com/GuyMichael/Reactdroid) architecture and adds
 various features/abilities, such as network (API), DB, cache and more.
 
+For a working app that uses this library, [just go here](https://github.com/GuyMichael/ReactdroidAppExample)
+
 ### Usage Examples
 Assuming you're already familiar with [_Reactdroid_](https://github.com/GuyMichael/Reactdroid), below are
 some usueful features this library adds to it:
