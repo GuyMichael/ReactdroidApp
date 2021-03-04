@@ -12,12 +12,11 @@ Using this library you can easily set multiple API clients with different domain
 and other settings. It is built on top of [_Retrofit_](https://square.github.io/retrofit/). Future releases
 might change the underlying library and use [_Ktor_](https://ktor.io/docs/request.html) to support [_Multiplatform_](https://kotlinlang.org/lp/mobile/).
 
-Here is how you request some _Netflix_ API, defined with _Retrofit_ and this library.
+Here is how you request some _Netflix_ API, defined with a _Retrofit_ interface.
 This call returns an [_APromise_](https://github.com/GuyMichael/APromise) instance:
 ````kotlin
+                //Retrofit interface        //String(Def) to refer to a particular ApiClient
   ApiRequest.of(ApiNetflixTitlesGet::class, ApiClientName.NETFLIX) {
-                //a Retrofit interface      //some String(Def) to refer to a particular ApiClient
-  
       it.searchTitles() //execute the Retrofit interface method
   } //returns an APromise
 ````
