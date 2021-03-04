@@ -140,7 +140,7 @@ which is already present in [_Reactdroid_](https://github.com/GuyMichael/Reactdr
 ````
 Yep, piece of cake. You're done.
 
-Now let's see how you do it lazy. By the way, we already learnt how to do it in some example above:)
+Now let's see how you do it lazy. By the way, we already learnt how to do it in an example above:)
 ````kotlin
     //loadOrFetch will load your existing DB Tables to the Store - if not already present.
     //If the DB is also empty, it will execute the given 'ApiRequest'
@@ -155,3 +155,6 @@ Now let's see how you do it lazy. By the way, we already learnt how to do it in 
     }
     .execute()
 ````
+For example, you can execute this call from your UI _Component_'s `componentDidMount()` callback,
+so when some data-relevant page opens, it will execute this lazy-load logic.
+Note: it's better to write this logic in your feature's _Logic_ _class_ and just _execute_ it from your _Component_.
