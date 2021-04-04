@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-//apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 29
@@ -26,19 +26,18 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
-
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    testImplementation 'junit:junit:4.13'
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
@@ -48,14 +47,14 @@ dependencies {
     api 'androidx.multidex:multidex:2.0.1'
     api 'androidx.legacy:legacy-support-v4:1.0.0'
     api 'androidx.constraintlayout:constraintlayout:2.0.4'
-    api 'androidx.navigation:navigation-fragment-ktx:2.3.3'
-    api 'androidx.navigation:navigation-ui-ktx:2.3.3'
+    api 'androidx.navigation:navigation-fragment-ktx:2.3.4'
+    api 'androidx.navigation:navigation-ui-ktx:2.3.4'
     api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    api 'androidx.navigation:navigation-fragment-ktx:2.3.3'
-    api 'androidx.navigation:navigation-ui-ktx:2.3.3'
+    api 'androidx.navigation:navigation-fragment-ktx:2.3.4'
+    api 'androidx.navigation:navigation-ui-ktx:2.3.4'
 
-    //Reactdroid - includes com.github.APromise, androidx.core:core-ktx, androidx.appcompat:appcompat, material
-    api 'com.github.GuyMichael:Reactdroid:0.1.84'
+    //Reactdroid - includes com.github.GuyMichael.apromise, androidx.core:core-ktx, androidx.appcompat:appcompat, material
+    api 'com.github.GuyMichael.reactdroid:reactdroid:0.1.86'
 
     //Networking - Retrofit
     api 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -75,4 +74,39 @@ dependencies {
 
     //ViewPager2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
+}
+
+
+
+
+
+
+
+
+// Because the components are created only during the afterEvaluate phase, you must
+// configure your publications using the afterEvaluate() lifecycle method.
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
+
+                // You can then customize attributes of the publication as shown below.
+                groupId = 'com.guymichael.reactiveapp'
+                artifactId = 'reactiveapp'
+                version = '1.0'
+            }
+            // Creates a Maven publication called “debug”.
+            debug(MavenPublication) {
+                // Applies the component for the debug build variant.
+                from components.debug
+
+                groupId = 'com.guymichael.reactiveapp'
+                artifactId = 'reactiveapp-debug'
+                version = '1.0'
+            }
+        }
+    }
 }
