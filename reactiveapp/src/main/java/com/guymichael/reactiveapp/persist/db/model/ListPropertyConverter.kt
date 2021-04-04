@@ -19,3 +19,11 @@ open class ListPropertyConverter<T : Any>: PropertyConverter<List<T>, String> {
     /** Default impl. returns null */
     open fun convertToEntityProperty_defaultIfDbValueNull(): List<T>? = null
 }
+
+
+//specific implementations for actual use (we can't use generics in the ObjectBox's @Convert annotation
+class BooleanListPropertyConverter : ListPropertyConverter<Boolean>()
+class IntListPropertyConverter : ListPropertyConverter<Int>()
+class LongListPropertyConverter : ListPropertyConverter<Long>()
+class DoubleListPropertyConverter : ListPropertyConverter<Double>()
+class StringListPropertyConverter : ListPropertyConverter<String>()
