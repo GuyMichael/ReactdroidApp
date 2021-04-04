@@ -9,7 +9,7 @@ For extensive articles about how this architecture is built, [read here on Mediu
 
 To import this project using Gradle:
 ```kotlin
-implementation 'com.github.GuyMichael:ReactiveApp:0.1.21'
+implementation 'com.github.GuyMichael.reactiveapp:reactiveapp:0.1.24'
 ```
 
 ### Usage Examples
